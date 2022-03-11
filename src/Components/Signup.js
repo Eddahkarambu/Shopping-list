@@ -90,7 +90,7 @@ function Signup() {
                   <Lock/>
                 </InputAdornment>
               )}}        
-          placeholder="ConfirmPassword"
+          placeholder="Confirm Password"
           variant="filled"
           type="password"
           className={classes.root}
