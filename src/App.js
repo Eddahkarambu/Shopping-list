@@ -1,9 +1,13 @@
 import React from 'react';
-import Signup from './Components/Signup';
+import Paths from './Components/Router';
+import {BrowserRouter as Router} from 'react-router-dom';
+
 function App() {
   return (
     <div className="App">
-      <Signup />
+      <Router>
+        < Paths/>
+      </Router>
     </div>
   );
 }
