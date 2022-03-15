@@ -1,5 +1,5 @@
-.Signup{
-    background-image: url('../images/image3.jpeg');
+.Signin{
+    background-image: url('../images/sign.jpeg');
     min-height: 100vh;
     padding-left:50px;
     padding-right: 50px;
@@ -38,9 +38,6 @@
     .heading{
         font-size: 40px;
     }
-    .link{
-        font-size: 20px;
-    }
 
     @media(max-width:816px){
         .Form{
@@ -48,5 +45,3 @@
         }
        
     }
-
- 

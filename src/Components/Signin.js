@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./Signup.css";
+import "./Signin.css";
 import { Button, Box } from "@material-ui/core";
 import { TextField, InputAdornment } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
-import { Lock, Person, Email } from "@mui/icons-material";
+import { Lock, Email } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,35 +14,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Signup() {
+function Signin() {
   const classes = useStyles();
-  const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const [ConfirmPassword, setConfirmPassword] = useState("");
 
   return (
-    <div className="Signup">
+    <div className="Signin">
       <form className="Form">
-        <div className="heading">Create Account</div>
-        <Box margin="2rem">
-          <TextField
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Person />
-                </InputAdornment>
-              ),
-            }}
-            placeholder="First Name"
-            variant="filled"
-            required
-            value={firstName}
-            className={classes.root}
-            color="primary"
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </Box>
+        <div className="heading">Sign in</div>
         <Box margin="2rem">
           <TextField
             InputProps={{
@@ -79,49 +59,28 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
-
-        <Box margin="2rem">
-          <TextField
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Lock />
-                </InputAdornment>
-              ),
-            }}
-            placeholder="Confirm Password"
-            variant="filled"
-            type="password"
-            className={classes.root}
-            required
-            value={ConfirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </Box>
-
         <div className="btn">
           <Box margin="1rem">
             <Button
               style={{
                 minWidth: "200px",
-                paddingBottom: "20px",
                 paddingTop: "20px",
+                paddingBottom: "20px",
               }}
-              size="large"
               variant="contained"
               color="primary"
             >
-              Signup
+              Login
             </Button>
           </Box>
         </div>
         <div>
           {" "}
-          Already have an account? <Link to="/signin">Sign in</Link>
+          Do not have a an account <Link to="/">Sign up</Link>
         </div>
       </form>
     </div>
   );
 }
 
-export default Signup;
+export default Signin;
