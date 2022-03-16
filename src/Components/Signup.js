@@ -5,6 +5,7 @@ import { TextField, InputAdornment } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import { Lock, Person, Email } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFilledInput-root": {
@@ -15,11 +16,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Signup() {
+  let navigate = useNavigate();
   const classes = useStyles();
-  const [firstName, setFirstName] = useState("");
+  const [userName, setuserName] = useState("");
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+
+  let handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch("http://localhost:1337/api/auth/local/register", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: userName,
+          email: email,
+          password: Password,
+        }),
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        let path = `/signin`;
+        navigate(path);
+      } else {
+        alert("Some error occured");
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   return (
     <div className="Signup">
@@ -34,13 +63,13 @@ function Signup() {
                 </InputAdornment>
               ),
             }}
-            placeholder="First Name"
+            placeholder="User Name"
             variant="filled"
             required
-            value={firstName}
+            value={userName}
             className={classes.root}
             color="primary"
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => setuserName(e.target.value)}
           />
         </Box>
         <Box margin="2rem">
@@ -110,6 +139,7 @@ function Signup() {
               size="large"
               variant="contained"
               color="primary"
+              onClick={handleSubmit}
             >
               Signup
             </Button>
