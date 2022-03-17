@@ -19,6 +19,31 @@ function Signin() {
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
 
+  let handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let res = await fetch("http://localhost:1337/api/auth/local", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier: email,
+          password: Password,
+        }),
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        alert("Loged in successfully");
+      } else {
+        alert("Some error occured");
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   return (
     <div className="Signin">
       <form className="Form">
@@ -69,6 +94,7 @@ function Signin() {
               }}
               variant="contained"
               color="primary"
+              onClick={handleSubmit}
             >
               Login
             </Button>
