@@ -5,6 +5,7 @@ import { TextField, InputAdornment } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import { Lock, Email } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFilledInput-root": {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Signin() {
+  let navigate = useNavigate();
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -35,12 +37,16 @@ function Signin() {
       });
       let resJson = await res.json();
       if (res.status === 200) {
-        alert("Loged in successfully");
+        localStorage.setItem("token", resJson.jwt);
+        if (res.status === 200) {
+          let path = `/shoppinglist`;
+          navigate(path);
+        }
       } else {
         alert("Some error occured");
       }
-    } catch (err) {
-      alert(err);
+    } catch (error) {
+      alert("error");
     }
   };
 
@@ -102,7 +108,7 @@ function Signin() {
         </div>
         <div>
           {" "}
-          Do not have a an account <Link to="/">Sign up</Link>
+          Do not have a an account <Link to="/signup">Sign up</Link>
         </div>
       </form>
     </div>
