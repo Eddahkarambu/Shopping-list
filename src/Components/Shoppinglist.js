@@ -109,7 +109,7 @@ export default function Shoppinglist() {
       handleClose();
       setName("");
     } catch (err) {
-      toast.error("err");
+      toast.error("you have an error");
     }
   };
   return (

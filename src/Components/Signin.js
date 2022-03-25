@@ -47,7 +47,7 @@ function Signin() {
         toast.error("Some error occured");
       }
     } catch (err) {
-      toast.error("err");
+      toast.error("you have an error");
     }
   };
 
