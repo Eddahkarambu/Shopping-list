@@ -49,7 +49,7 @@ function Signup() {
         toast.error("Some error occured");
       }
     } catch (err) {
-      toast.error("you have an error");
+      toast.error("An error occured");
     }
   };
 

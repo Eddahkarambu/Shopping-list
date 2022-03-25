@@ -76,17 +76,17 @@ export default function Shoppinglist() {
         });
         setShoppingList(modifieddArray);
       } else {
-        alert("Some error occured");
+        toast.error("Some error occured");
       }
     } catch (err) {
-      alert(err);
+      toast.error("An error occured");
     }
   };
 
   let handleSubmit = async (e) => {
     e.preventDefault();
     if (name === "") {
-      alert("please fill the name");
+      toast.error("please fill the name");
     }
     try {
       const token = localStorage.getItem("token");
