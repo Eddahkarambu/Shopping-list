@@ -45,9 +45,6 @@ export default function Shoppinglist() {
   const handleClose = () => setOpen(false);
   const [shoppinglist, setShoppingList] = useState([]);
   const [name, setName] = useState("");
-  const [error, setError] = useState(false);
-
-  console.log(open);
 
   useEffect(() => {
     fetchShoppingList();

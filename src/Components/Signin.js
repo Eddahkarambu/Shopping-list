@@ -110,7 +110,7 @@ function Signin() {
         </div>
         <div>
           {" "}
-          Do not have a an account <Link to="/">Sign up</Link>
+          Do not have an account <Link to="/">Sign up</Link>
         </div>
       </form>
     </div>
