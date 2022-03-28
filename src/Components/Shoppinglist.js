@@ -106,7 +106,7 @@ export default function Shoppinglist() {
       handleClose();
       setName("");
     } catch (err) {
-      toast.error("you have an error");
+      toast.error(" An error occurred");
     }
   };
   return (
