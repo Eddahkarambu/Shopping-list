@@ -6,6 +6,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Lock, Person, Email } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFilledInput-root": {
@@ -43,15 +46,16 @@ function Signup() {
         let path = `/signin`;
         navigate(path);
       } else {
-        alert("Some error occured");
+        toast.error("Some error occured");
       }
     } catch (err) {
-      alert(err);
+      toast.error("An error occured");
     }
   };
 
   return (
     <div className="Signup">
+      <ToastContainer />
       <form className="Form">
         <div className="heading">Create Account</div>
         <Box margin="2rem">

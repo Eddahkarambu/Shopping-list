@@ -6,6 +6,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Lock, Email } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFilledInput-root": {
@@ -37,21 +40,20 @@ function Signin() {
       });
       let resJson = await res.json();
       if (res.status === 200) {
-        localStorage.setItem("token", resJson.jwt);
-        if (res.status === 200) {
-          let path = `/shoppinglist`;
-          navigate(path);
-        }
+        let path = `/shoppinglist`;
+        navigate(path);
+        toast.success("Loged in successfully");
       } else {
-        alert("Some error occured");
+        toast.error("Some error occured");
       }
-    } catch (error) {
-      alert("error");
+    } catch (err) {
+      toast.error("An error occured");
     }
   };
 
   return (
     <div className="Signin">
+      <ToastContainer />
       <form className="Form">
         <div className="heading">Sign in</div>
         <Box margin="2rem">
@@ -108,7 +110,7 @@ function Signin() {
         </div>
         <div>
           {" "}
-          Do not have a an account <Link to="/signup">Sign up</Link>
+          Do not have an account <Link to="/">Sign up</Link>
         </div>
       </form>
     </div>
