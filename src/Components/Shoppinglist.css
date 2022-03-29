@@ -1,8 +1,12 @@
-.shopping{
-    width:100%;
-    height:100vh;
+.shopping {
+  width: 100%;
+  height: 100vh;
 }
-.list{
-    justify-content: center;
-    align-items: center;
+.list {
+  justify-content: center;
+  align-items: center;
+}
+.bttn {
+  display: flex;
+  justify-content: flex-end;
 }

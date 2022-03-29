@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Shoppinglist.css";
+import Progress from "./Progress.js";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -35,16 +36,18 @@ const style = {
 const columns = [
   { field: "id", headername: "ID" },
   { field: "Name", headername: "Name" },
+  { field: "Action", headername: "Action" },
 ];
 
 export default function Shoppinglist() {
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [shoppinglist, setShoppingList] = useState([]);
   const [name, setName] = useState("");
+  const [spinner, setSpinner] = useState(false);
 
   useEffect(() => {
     fetchShoppingList();
@@ -53,6 +56,7 @@ export default function Shoppinglist() {
   let fetchShoppingList = async () => {
     try {
       const token = localStorage.getItem("token");
+      setSpinner(true);
       let res = await fetch("http://localhost:1337/api/shoppinglists", {
         method: "GET",
         headers: {
@@ -61,8 +65,8 @@ export default function Shoppinglist() {
           Authorization: `Bearer ${token}`,
         },
       });
-
       let resJson = await res.json();
+      setSpinner(false);
       if (res.status === 200) {
         const shoppingArray = resJson.data;
         const modifieddArray = shoppingArray.map((list) => {
@@ -87,6 +91,7 @@ export default function Shoppinglist() {
     }
     try {
       const token = localStorage.getItem("token");
+      setSpinner(true);
       let res = await fetch("http://localhost:1337/api/shoppinglists", {
         method: "POST",
         headers: {
@@ -99,6 +104,7 @@ export default function Shoppinglist() {
         }),
       });
       let resJson = await res.json();
+      setSpinner(false);
       if (res.status === 200) {
       }
       toast.success("successfully added your shoppinglist");
@@ -111,8 +117,21 @@ export default function Shoppinglist() {
   };
   return (
     <div className="shopping">
+      {spinner && <Progress />}
       <ToastContainer />
-      <Button onClick={handleOpen}>Add Shopping List</Button>
+      <div className="bttn">
+        <Button
+          style={{
+            minWidth: "150px",
+            textAlign: "right",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={handleOpen}
+        >
+          Add Shopping List
+        </Button>
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
