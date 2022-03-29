@@ -3,12 +3,20 @@ import "./Shoppinglist.css";
 import Progress from "./Progress.js";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
+import { Delete } from "@mui/icons-material";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, InputAdornment } from "@mui/material";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,7 +44,7 @@ const style = {
 const columns = [
   { field: "id", headername: "ID" },
   { field: "Name", headername: "Name" },
-  { field: "Action", headername: "Action" },
+  { field: "Actions", Options: },
 ];
 
 export default function Shoppinglist() {
@@ -48,6 +56,7 @@ export default function Shoppinglist() {
   const [shoppinglist, setShoppingList] = useState([]);
   const [name, setName] = useState("");
   const [spinner, setSpinner] = useState(false);
+  const [Delete, setDelete] = useState("");
 
   useEffect(() => {
     fetchShoppingList();
@@ -175,14 +184,18 @@ export default function Shoppinglist() {
         </Box>
       </Modal>
       <div className="list">SHOPPING LIST</div>
+      
       <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={shoppinglist}
-          columns={columns}
-          rowsPerPageOptions={[]}
-          checkboxSelection
-          hideFooter
-        />
+      <TableHead>
+          <TableRow>
+            <TableCell>Dessert (100g serving)</TableCell>
+            <TableCell align="right">Calories</TableCell>
+            <TableCell align="right">Fat&nbsp;(g)</TableCell>
+            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          </TableRow>
+        </TableHead>
+  
       </div>
     </div>
   );
