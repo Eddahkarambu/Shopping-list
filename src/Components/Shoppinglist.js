@@ -126,11 +126,11 @@ export default function Shoppinglist() {
     }
   };
 
-  let handleDelete = async () => {
+  let handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
       setSpinner(true);
-      let res = await fetch("http://localhost:1337/api/shoppinglists/id", {
+      let res = await fetch(`http://localhost:1337/api/shoppinglists/${id}`, {
         method: "DELETE",
         headers: {
           Accept: "application/json",
@@ -141,7 +141,8 @@ export default function Shoppinglist() {
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
-        toast.delete("deleted");
+        toast.success("deleted successfully");
+        fetchShoppingList();
       }
     } catch (err) {
       toast.error("An error occured");
@@ -228,7 +229,7 @@ export default function Shoppinglist() {
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.Name}</TableCell>
                   <TableCell>
-                    <DeleteIcon onClick={handleDelete} />
+                    <DeleteIcon onClick={() => handleDelete(row.id)} />
                   </TableCell>
                 </TableRow>
               ))}
