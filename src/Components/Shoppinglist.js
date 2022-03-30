@@ -10,13 +10,14 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, InputAdornment } from "@mui/material";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,7 +45,7 @@ const style = {
 const columns = [
   { field: "id", headername: "ID" },
   { field: "Name", headername: "Name" },
-  { field: "Actions", Options: },
+  { field: "Actions", headername: "Actions" },
 ];
 
 export default function Shoppinglist() {
@@ -124,6 +125,29 @@ export default function Shoppinglist() {
       toast.error(" An error occurred");
     }
   };
+
+  let handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      setSpinner(true);
+      let res = await fetch("http://localhost:1337/api/shoppinglists/id", {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      let resJson = await res.json();
+      setSpinner(false);
+      if (res.status === 200) {
+        toast.delete("deleted");
+      }
+    } catch (err) {
+      toast.error("An error occured");
+    }
+  };
+
   return (
     <div className="shopping">
       {spinner && <Progress />}
@@ -184,18 +208,33 @@ export default function Shoppinglist() {
         </Box>
       </Modal>
       <div className="list">SHOPPING LIST</div>
-      
-      <div style={{ height: 400, width: "100%" }}>
-      <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-  
+
+      <div style={{ height: 400, width: "60%" }}>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">ID</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {shoppinglist.map((row) => (
+                <TableRow
+                  key={row.Name}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.Name}</TableCell>
+                  <TableCell>
+                    <DeleteIcon onClick={handleDelete} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </div>
   );
