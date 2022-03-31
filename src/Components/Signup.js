@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Signup.css";
+import Progress from "./Progress.js";
 import { Button, Box } from "@material-ui/core";
 import { TextField, InputAdornment } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,10 +26,13 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
+  const [spinner, setSpinner] = useState(false);
 
   let handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
+      setSpinner(true);
       let res = await fetch("http://localhost:1337/api/auth/local/register", {
         method: "POST",
         headers: {
@@ -42,6 +46,7 @@ function Signup() {
         }),
       });
       let resJson = await res.json();
+      setSpinner(false);
       if (res.status === 200) {
         let path = `/signin`;
         navigate(path);
@@ -55,6 +60,7 @@ function Signup() {
 
   return (
     <div className="Signup">
+      {spinner && <Progress />}
       <ToastContainer />
       <form className="Form">
         <div className="heading">Create Account</div>
