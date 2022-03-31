@@ -49,7 +49,6 @@ const columns = [
 ];
 
 export default function Shoppinglist() {
-  // let navigate = useNavigate();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
