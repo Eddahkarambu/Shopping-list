@@ -18,6 +18,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Visibility from "@mui/icons-material/Visibility";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,6 +50,7 @@ const columns = [
 ];
 
 export default function Shoppinglist() {
+  let navigate = useNavigate();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -148,6 +150,11 @@ export default function Shoppinglist() {
     }
   };
 
+  const redirectShoppingItem = (id) => {
+    let path = `/shoppinglists/${id}`;
+    navigate(path);
+  };
+
   return (
     <div className="shopping">
       {spinner && <Progress />}
@@ -228,6 +235,7 @@ export default function Shoppinglist() {
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.Name}</TableCell>
                   <TableCell>
+                    <Visibility onClick={() => redirectShoppingItem(row.id)} />
                     <DeleteIcon onClick={() => handleDelete(row.id)} />
                   </TableCell>
                 </TableRow>
