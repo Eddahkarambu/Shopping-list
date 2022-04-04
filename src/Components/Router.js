@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Signup from "./Signup";
 import Signin from "./Signin";
 import Shoppinglist from "./Shoppinglist";
+import Shoppingitems from "./Shoppingitems";
 
 export default class Paths extends Component {
   render() {
@@ -12,6 +13,7 @@ export default class Paths extends Component {
         <Route path="/signin" element={<Signin />} />
         <Route path="/shoppinglist" element={<Shoppinglist />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/shoppinglists/:id" element={<Shoppingitems />} />
       </Routes>
     );
   }
