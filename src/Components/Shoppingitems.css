@@ -1,12 +1,12 @@
-/* .shoppinglists{
-    width: 100%;
-    min-height: 100vh;
-  }
-  .listsone {
-    justify-content: center;
-    align-items: center;
-  }
-  .bttn {
+.shoppingitems {
+  width: 100%;
+  min-height: 100vh;
+}
+.listitems {
+  justify-content: center;
+  align-items: center;
+}
+/* .bttn {
     display: flex;
     justify-content: flex-end;
   } */
