@@ -116,7 +116,6 @@ export default function Shoppinglist() {
       });
       let resJson = await res.json();
       setSpinner(false);
-
       if (res.status === 200) {
         toast.success("successfully added your shoppinglist");
         fetchShoppingList();

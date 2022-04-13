@@ -85,7 +85,7 @@ export default function Shoppingitems() {
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
-        const shoppingArray = resJson.data.attributes.shoppinglistitems.data;
+        const shoppingArray = resJson.data.attributes.shoppinglistitem.data;
         console.log(shoppingArray);
         const modifieddArray = shoppingArray.map((item) => {
           return {
@@ -111,26 +111,23 @@ export default function Shoppingitems() {
     try {
       const token = localStorage.getItem("jwt");
       setSpinner(true);
-      let res = await fetch(
-        `http://localhost:1337/api/shoppinglists/${params.id}?populate=*`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            data: { Name: name },
-          }),
-        }
-      );
+      let res = await fetch("http://localhost:1337/api/shoppinglistitems", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          data: { Name: name, shoppinglist: params.id },
+        }),
+      });
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
+        toast.success("successfully added your shoppingitems");
+        fetchShoppingItems();
       }
-      toast.success("successfully added your shoppingitems");
-      fetchShoppingItems();
       handleClose();
       setName("");
     } catch (err) {
