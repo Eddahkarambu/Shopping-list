@@ -37,6 +37,7 @@ function Signin() {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
           identifier: email,
           password: Password,
@@ -45,6 +46,9 @@ function Signin() {
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
+        console.log(resJson.jwt);
+        const retrievetoken = localStorage.setItem("jwt", resJson.jwt);
+
         let path = `/shoppinglist`;
         navigate(path);
         toast.success("Loged in successfully");

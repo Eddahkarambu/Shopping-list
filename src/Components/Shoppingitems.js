@@ -17,6 +17,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useParams } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -58,31 +59,39 @@ export default function Shoppingitems() {
   const [spinner, setSpinner] = useState(false);
   const [Delete, setDelete] = useState("");
 
+  const params = useParams();
+
   useEffect(() => {
     fetchShoppingItems();
   }, []);
 
   let fetchShoppingItems = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwt");
+
       setSpinner(true);
-      let res = await fetch("http://localhost:1337/api/shoppinglistitems", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      let res = await fetch(
+        `http://localhost:1337/api/shoppinglists/${params.id}?populate=*`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
-        const shoppingArray = resJson.data;
-        const modifieddArray = shoppingArray.map((list) => {
+        const shoppingArray = resJson.data.attributes.shoppinglistitems.data;
+        console.log(shoppingArray);
+        const modifieddArray = shoppingArray.map((item) => {
           return {
-            id: list.id,
-            Name: list.attributes.Name,
-            Quantity: list.attributes.Quantity,
+            id: item.id,
+            Name: item.attributes.Name,
+            Quantity: item.attributes.quantity,
           };
         });
         setShoppingitems(modifieddArray);
@@ -94,37 +103,40 @@ export default function Shoppingitems() {
     }
   };
 
-  //   let handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     if (name === "") {
-  //       toast.error("please fill the name");
-  //     }
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       setSpinner(true);
-  //       let res = await fetch("http://localhost:1337/api/shoppinglistitems", {
-  //         method: "POST",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({
-  //           data: { Name: name },
-  //         }),
-  //       });
-  //       let resJson = await res.json();
-  //       setSpinner(false);
-  //       if (res.status === 200) {
-  //       }
-  //       toast.success("successfully added your shoppingitems");
-  //       fetchShoppingItems();
-  //       handleClose();
-  //       setName("");
-  //     } catch (err) {
-  //       toast.error(" An error occurred");
-  //     }
-  //   };
+  let handleSubmit = async (e) => {
+    e.preventDefault();
+    if (name === "") {
+      toast.error("please fill the name");
+    }
+    try {
+      const token = localStorage.getItem("jwt");
+      setSpinner(true);
+      let res = await fetch(
+        `http://localhost:1337/api/shoppinglists/${params.id}?populate=*`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            data: { Name: name },
+          }),
+        }
+      );
+      let resJson = await res.json();
+      setSpinner(false);
+      if (res.status === 200) {
+      }
+      toast.success("successfully added your shoppingitems");
+      fetchShoppingItems();
+      handleClose();
+      setName("");
+    } catch (err) {
+      toast.error(" An error occurred");
+    }
+  };
 
   //   let handleDelete = async (id) => {
   //     try {
@@ -153,6 +165,63 @@ export default function Shoppingitems() {
     <div className="shoppingitems">
       {spinner && <Progress />}
       <ToastContainer />
+      <div className="bttn">
+        <Button
+          style={{
+            minWidth: "150px",
+            textAlign: "right",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={handleOpen}
+        >
+          Add Shopping List Item
+        </Button>
+      </div>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Create Shopping List Item
+          </Typography>
+          <form>
+            <Box margin="2rem">
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                }}
+                placeholder="Name"
+                variant="filled"
+                className={classes.root}
+                type="Name"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Box>
+          </form>
+          <div className="btn">
+            <Button
+              style={{
+                minWidth: "150px",
+              }}
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+            >
+              SUBMIT
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+
       <div className="listitems">SHOPPING ITEMS</div>
       <div style={{ height: 400, width: "100%" }}>
         <TableContainer component={Paper}>
