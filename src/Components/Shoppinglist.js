@@ -58,7 +58,7 @@ export default function Shoppinglist() {
   const [shoppinglist, setShoppingList] = useState([]);
   const [name, setName] = useState("");
   const [spinner, setSpinner] = useState(false);
-  const [Delete, setDelete] = useState("");
+  // const [Delete, setDelete] = useState("");
 
   useEffect(() => {
     fetchShoppingList();
@@ -66,7 +66,7 @@ export default function Shoppinglist() {
 
   let fetchShoppingList = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwt");
       setSpinner(true);
       let res = await fetch("http://localhost:1337/api/shoppinglists", {
         method: "GET",
@@ -101,7 +101,7 @@ export default function Shoppinglist() {
       toast.error("please fill the name");
     }
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwt");
       setSpinner(true);
       let res = await fetch("http://localhost:1337/api/shoppinglists", {
         method: "POST",
@@ -117,9 +117,9 @@ export default function Shoppinglist() {
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
+        toast.success("successfully added your shoppinglist");
+        fetchShoppingList();
       }
-      toast.success("successfully added your shoppinglist");
-      fetchShoppingList();
       handleClose();
       setName("");
     } catch (err) {
@@ -129,7 +129,7 @@ export default function Shoppinglist() {
 
   let handleDelete = async (id) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwt");
       setSpinner(true);
       let res = await fetch(`http://localhost:1337/api/shoppinglists/${id}`, {
         method: "DELETE",
@@ -151,7 +151,7 @@ export default function Shoppinglist() {
   };
 
   const redirectShoppingItem = (id) => {
-    let path = `/shoppinglists/${id}`;
+    let path = `/shoppinglist/${id}`;
     navigate(path);
   };
 

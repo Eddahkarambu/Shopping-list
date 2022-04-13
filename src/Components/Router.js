@@ -13,7 +13,7 @@ export default class Paths extends Component {
         <Route path="/signin" element={<Signin />} />
         <Route path="/shoppinglist" element={<Shoppinglist />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/shoppinglists/:id" element={<Shoppingitems />} />
+        <Route path="/shoppinglist/:id" element={<Shoppingitems />} />
       </Routes>
     );
   }
