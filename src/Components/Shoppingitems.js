@@ -135,28 +135,34 @@ export default function Shoppingitems() {
     }
   };
 
-  //   let handleDelete = async (id) => {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       setSpinner(true);
-  //       let res = await fetch(`http://localhost:1337/api/shoppingitems/${id}`, {
-  //         method: "DELETE",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       let resJson = await res.json();
-  //       setSpinner(false);
-  //       if (res.status === 200) {
-  //         toast.success("deleted successfully");
-  //         fetchShoppingItems();
-  //       }
-  //     } catch (err) {
-  //       toast.error("An error occured");
-  //     }
-  //   };
+  let handleDelete = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      setSpinner(true);
+      let res = await fetch(
+        `http://localhost:1337/api/shoppingitems/${params.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          // body: JSON.stringify({
+          //   data: { shoppinglist: params.id },
+          // }),
+        }
+      );
+      let resJson = await res.json();
+      setSpinner(false);
+      if (res.status === 200) {
+        toast.success("deleted successfully");
+        fetchShoppingItems();
+      }
+    } catch (err) {
+      toast.error("An error occured");
+    }
+  };
 
   return (
     <div className="shoppingitems">
@@ -204,6 +210,25 @@ export default function Shoppingitems() {
               />
             </Box>
           </form>
+
+          {/* <form>
+            <Box margin="2rem">
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                }}
+                placeholder="Quantity"
+                variant="filled"
+                className={classes.root}
+                type="Number"
+                required
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </Box>
+          </form> */}
           <div className="btn">
             <Button
               style={{
@@ -228,6 +253,7 @@ export default function Shoppingitems() {
                 <TableCell align="left">ID</TableCell>
                 <TableCell align="left">Name</TableCell>
                 <TableCell align="left">Quantity</TableCell>
+                <TableCell align="left">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -239,9 +265,10 @@ export default function Shoppingitems() {
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.Name}</TableCell>
                   <TableCell>{row.Quantity}</TableCell>
+                  {/* <TableCell>{row.Action}</TableCell> */}
                   <TableCell>
                     {/* <Visibility onClick={() => redirectShoppingItem(row.id)} /> */}
-                    {/* <DeleteIcon onClick={() => handleDelete(row.id)} /> */}
+                    <DeleteIcon onClick={() => handleDelete(row.id)} />
                   </TableCell>
                 </TableRow>
               ))}
