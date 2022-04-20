@@ -106,7 +106,7 @@ export default function Shoppingitems() {
 
   let handleSubmit = async (e) => {
     e.preventDefault();
-    if (name === "") {
+    if (name === "" || quantity === "") {
       toast.error("please fill the name");
     }
     try {
@@ -120,7 +120,7 @@ export default function Shoppingitems() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          data: { Name: name, shoppinglist: params.id, Quantity: quantity },
+          data: { Name: name, shoppinglist: params.id, quantity: quantity },
         }),
       });
       let resJson = await res.json();
@@ -131,6 +131,7 @@ export default function Shoppingitems() {
       }
       handleClose();
       setName("");
+      setQuantity("");
     } catch (err) {
       toast.error(" An error occurred");
     }
@@ -141,7 +142,7 @@ export default function Shoppingitems() {
       const token = localStorage.getItem("token");
       setSpinner(true);
       let res = await fetch(
-        `http://localhost:1337/api/shoppingitems/${params.id}`,
+        `http://localhost:1337/api/shoppinglistitems/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -149,9 +150,6 @@ export default function Shoppingitems() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          // body: JSON.stringify({
-          //   data: { shoppinglist: params.id },
-          // }),
         }
       );
       let resJson = await res.json();
