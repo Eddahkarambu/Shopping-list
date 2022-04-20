@@ -56,6 +56,7 @@ export default function Shoppingitems() {
   const handleClose = () => setOpen(false);
   const [shoppingitems, setShoppingitems] = useState([]);
   const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [spinner, setSpinner] = useState(false);
   const [Delete, setDelete] = useState("");
 
@@ -119,7 +120,7 @@ export default function Shoppingitems() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          data: { Name: name, shoppinglist: params.id },
+          data: { Name: name, shoppinglist: params.id, Quantity: quantity },
         }),
       });
       let resJson = await res.json();
@@ -208,11 +209,7 @@ export default function Shoppingitems() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-            </Box>
-          </form>
 
-          {/* <form>
-            <Box margin="2rem">
               <TextField
                 InputProps={{
                   startAdornment: (
@@ -222,13 +219,14 @@ export default function Shoppingitems() {
                 placeholder="Quantity"
                 variant="filled"
                 className={classes.root}
-                type="Number"
+                type="Name"
                 required
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
               />
             </Box>
-          </form> */}
+          </form>
+
           <div className="btn">
             <Button
               style={{
