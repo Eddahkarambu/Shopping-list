@@ -261,9 +261,7 @@ export default function Shoppingitems() {
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.Name}</TableCell>
                   <TableCell>{row.Quantity}</TableCell>
-                  {/* <TableCell>{row.Action}</TableCell> */}
                   <TableCell>
-                    {/* <Visibility onClick={() => redirectShoppingItem(row.id)} /> */}
                     <DeleteIcon onClick={() => handleDelete(row.id)} />
                   </TableCell>
                 </TableRow>

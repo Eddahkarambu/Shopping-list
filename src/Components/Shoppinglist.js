@@ -58,7 +58,6 @@ export default function Shoppinglist() {
   const [shoppinglist, setShoppingList] = useState([]);
   const [name, setName] = useState("");
   const [spinner, setSpinner] = useState(false);
-  // const [Delete, setDelete] = useState("");
 
   useEffect(() => {
     fetchShoppingList();
