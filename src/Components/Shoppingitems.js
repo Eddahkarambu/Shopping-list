@@ -56,6 +56,7 @@ export default function Shoppingitems() {
   const handleClose = () => setOpen(false);
   const [shoppingitems, setShoppingitems] = useState([]);
   const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [spinner, setSpinner] = useState(false);
   const [Delete, setDelete] = useState("");
 
@@ -105,7 +106,7 @@ export default function Shoppingitems() {
 
   let handleSubmit = async (e) => {
     e.preventDefault();
-    if (name === "") {
+    if (name === "" || quantity === "") {
       toast.error("please fill the name");
     }
     try {
@@ -119,7 +120,7 @@ export default function Shoppingitems() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          data: { Name: name, shoppinglist: params.id },
+          data: { Name: name, shoppinglist: params.id, quantity: quantity },
         }),
       });
       let resJson = await res.json();
@@ -130,33 +131,37 @@ export default function Shoppingitems() {
       }
       handleClose();
       setName("");
+      setQuantity("");
     } catch (err) {
       toast.error(" An error occurred");
     }
   };
 
-  //   let handleDelete = async (id) => {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       setSpinner(true);
-  //       let res = await fetch(`http://localhost:1337/api/shoppingitems/${id}`, {
-  //         method: "DELETE",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       let resJson = await res.json();
-  //       setSpinner(false);
-  //       if (res.status === 200) {
-  //         toast.success("deleted successfully");
-  //         fetchShoppingItems();
-  //       }
-  //     } catch (err) {
-  //       toast.error("An error occured");
-  //     }
-  //   };
+  let handleDelete = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      setSpinner(true);
+      let res = await fetch(
+        `http://localhost:1337/api/shoppinglistitems/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      let resJson = await res.json();
+      setSpinner(false);
+      if (res.status === 200) {
+        toast.success("deleted successfully");
+        fetchShoppingItems();
+      }
+    } catch (err) {
+      toast.error("An error occured");
+    }
+  };
 
   return (
     <div className="shoppingitems">
@@ -202,8 +207,24 @@ export default function Shoppingitems() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start"></InputAdornment>
+                  ),
+                }}
+                placeholder="Quantity"
+                variant="filled"
+                className={classes.root}
+                type="Name"
+                required
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
             </Box>
           </form>
+
           <div className="btn">
             <Button
               style={{
@@ -228,6 +249,7 @@ export default function Shoppingitems() {
                 <TableCell align="left">ID</TableCell>
                 <TableCell align="left">Name</TableCell>
                 <TableCell align="left">Quantity</TableCell>
+                <TableCell align="left">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -240,8 +262,7 @@ export default function Shoppingitems() {
                   <TableCell>{row.Name}</TableCell>
                   <TableCell>{row.Quantity}</TableCell>
                   <TableCell>
-                    {/* <Visibility onClick={() => redirectShoppingItem(row.id)} /> */}
-                    {/* <DeleteIcon onClick={() => handleDelete(row.id)} /> */}
+                    <DeleteIcon onClick={() => handleDelete(row.id)} />
                   </TableCell>
                 </TableRow>
               ))}
