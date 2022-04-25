@@ -67,7 +67,7 @@ export default function Shoppinglist() {
     try {
       const token = localStorage.getItem("jwt");
       setSpinner(true);
-      let res = await fetch("http://localhost:1337/api/shoppinglists", {
+      let res = await fetch("http://localhost:1337/api/me/shoppinglists", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -78,14 +78,7 @@ export default function Shoppinglist() {
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
-        const shoppingArray = resJson.data;
-        const modifieddArray = shoppingArray.map((list) => {
-          return {
-            id: list.id,
-            Name: list.attributes.Name,
-          };
-        });
-        setShoppingList(modifieddArray);
+        setShoppingList(resJson);
       } else {
         toast.error("Some error occured");
       }
@@ -101,6 +94,7 @@ export default function Shoppinglist() {
     }
     try {
       const token = localStorage.getItem("jwt");
+      const user = localStorage.getItem("clientId");
       setSpinner(true);
       let res = await fetch("http://localhost:1337/api/shoppinglists", {
         method: "POST",
@@ -110,7 +104,7 @@ export default function Shoppinglist() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          data: { Name: name },
+          data: { Name: name, user: user },
         }),
       });
       let resJson = await res.json();

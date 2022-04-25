@@ -46,8 +46,8 @@ function Signin() {
       let resJson = await res.json();
       setSpinner(false);
       if (res.status === 200) {
-        console.log(resJson.jwt);
-        const retrievetoken = localStorage.setItem("jwt", resJson.jwt);
+        localStorage.setItem("jwt", resJson.jwt);
+        localStorage.setItem("clientId", resJson.user.id);
 
         let path = `/shoppinglist`;
         navigate(path);
